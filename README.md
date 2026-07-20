@@ -198,11 +198,11 @@ images/home.png
 ## Trang sản phẩm
 
 ```
-images/products.png
+common/images/product.png
 ```
 
 ```md
-![Products](images/products.png)
+![Products](common/images/product.png)
 ```
 
 ---
