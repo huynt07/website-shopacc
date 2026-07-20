@@ -145,7 +145,7 @@ shopaccgame/
 │   ├── index.html                     # Danh sách sản phẩm
 │   └── detail.html                    # Chi tiết sản phẩm
 │
-└── README.md                          # Tài liệu mô tả dự án
+└── README.md                          # Mô tả dự án
 ```
 
 ---
@@ -188,25 +188,19 @@ index.html
 
 ## Trang chủ
 
-```md
 ![Home](common/images/home.png)
-```
 
 ---
 
 ## Trang sản phẩm
 
-```md
 ![Products](common/images/product.png)
-```
 
 ---
 
 ## Trang Admin
 
-```md
 ![Admin](common/images/admin.png)
-```
 
 ---
 
