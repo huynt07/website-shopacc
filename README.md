@@ -269,6 +269,11 @@ https://github.com/huynt07
 
 ---
 
+# 🤝 Liên hệ
+Nếu bạn có bất kỳ câu hỏi, góp ý hoặc đề xuất cải thiện dự án, hãy liên hệ với mình:
+
+📧 Email: fit.huynt@gmail.com
+
 # ⭐ Nếu bạn thấy dự án hữu ích
 
 Hãy để lại một ⭐ cho repository nhé!
