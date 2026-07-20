@@ -91,58 +91,61 @@ Ngoài ra website còn có trang **Admin Dashboard** để quản lý người d
 ```text
 shopaccgame/
 │
-├── index.html                    # Trang chủ
+├── index.html                         # Trang chủ
 │
-├── about/                        # Trang giới thiệu
-│   └── index.html
+├── about/                             # Trang giới thiệu
+│   └── index.html                     # Giao diện trang giới thiệu
 │
-├── admin/                        # Trang quản trị
-│   ├── index.html
-│   ├── login.html
-│   ├── orders.html
-│   ├── users.html
-│   ├── admin.css
-│   └── admin.js
+├── admin/                             # Chức năng quản trị
+│   ├── index.html                     # Dashboard quản trị
+│   ├── login.html                     # Đăng nhập Admin
+│   ├── orders.html                    # Quản lý đơn hàng
+│   ├── users.html                     # Quản lý người dùng
+│   ├── admin.css                      # CSS cho trang quản trị
+│   └── admin.js                       # JavaScript cho trang quản trị
 │
-├── auth/                         # Đăng nhập / Đăng ký
-│   ├── index.html
-│   ├── auth.css
-│   └── auth.js
+├── auth/                              # Chức năng xác thực
+│   ├── index.html                     # Đăng nhập / Đăng ký
+│   ├── auth.css                       # CSS xác thực
+│   └── auth.js                        # JavaScript xác thực
 │
-├── common/
+├── common/                            # Tài nguyên dùng chung
 │   ├── css/
-│   │   └── style.css
+│   │   └── style.css                  # CSS dùng chung
 │   │
 │   ├── js/
-│   │   ├── script.js
-│   │   └── products.js
+│   │   ├── script.js                  # JavaScript dùng chung
+│   │   └── products.js                # Dữ liệu và xử lý sản phẩm
 │   │
 │   ├── images/
-│   │   ├── products/
-│   │   └── roster/
+│   │   ├── home.png                   # Ảnh giao diện trang chủ
+│   │   ├── product.png                # Ảnh giao diện trang sản phẩm
+│   │   ├── admin.png                  # Ảnh giao diện trang quản trị
+│   │   ├── products/                  # Hình ảnh sản phẩm
+│   │   └── roster/                    # Hình ảnh nhân vật/game
 │   │
 │   └── vendor/
-│       ├── bootstrap.min.css
-│       ├── bootstrap.bundle.min.js
-│       └── jquery.min.js
+│       ├── bootstrap.min.css          # Thư viện Bootstrap CSS
+│       ├── bootstrap.bundle.min.js    # Thư viện Bootstrap JS
+│       └── jquery.min.js              # Thư viện jQuery
 │
-├── contact/
-│   ├── index.html
-│   └── contact.css
+├── contact/                           # Trang liên hệ
+│   ├── index.html                     # Giao diện liên hệ
+│   └── contact.css                    # CSS trang liên hệ
 │
-├── deposit/
-│   ├── index.html
-│   └── deposit.css
+├── deposit/                           # Trang nạp tiền
+│   ├── index.html                     # Giao diện nạp tiền
+│   └── deposit.css                    # CSS trang nạp tiền
 │
-├── history/
-│   ├── index.html
-│   └── history.css
+├── history/                           # Lịch sử giao dịch
+│   ├── index.html                     # Giao diện lịch sử
+│   └── history.css                    # CSS lịch sử
 │
-├── product/
-│   ├── index.html
-│   └── detail.html
+├── product/                           # Chức năng sản phẩm
+│   ├── index.html                     # Danh sách sản phẩm
+│   └── detail.html                    # Chi tiết sản phẩm
 │
-└── README.md
+└── README.md                          # Tài liệu mô tả dự án
 ```
 
 ---
@@ -185,21 +188,13 @@ index.html
 
 ## Trang chủ
 
-```
-images/home.png
-```
-
 ```md
-![Home](images/home.png)
+![Home](common/images/home.png)
 ```
 
 ---
 
 ## Trang sản phẩm
-
-```
-common/images/product.png
-```
 
 ```md
 ![Products](common/images/product.png)
@@ -209,12 +204,8 @@ common/images/product.png
 
 ## Trang Admin
 
-```
-images/admin.png
-```
-
 ```md
-![Admin](images/admin.png)
+![Admin](common/images/admin.png)
 ```
 
 ---
@@ -272,7 +263,9 @@ https://github.com/huynt07
 # 🤝 Liên hệ
 Nếu bạn có bất kỳ câu hỏi, góp ý hoặc đề xuất cải thiện dự án, hãy liên hệ với mình:
 
-📧 Email: fit.huynt@gmail.com
+ - 📧 Email: fit.huynt@gmail.com
+
+---
 
 # ⭐ Nếu bạn thấy dự án hữu ích
 
