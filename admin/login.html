@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng nhập Admin - SHOPACCGAME.VN</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../common/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../common/css/style.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin-body">
+
+    <div class="admin-login-wrap">
+        <div class="admin-login-card">
+            <i class="fa-solid fa-shield-halved"></i>
+            <h3>Đăng nhập quản trị</h3>
+            <form id="admin-login-form">
+                <input type="password" id="admin-passcode" class="form-control" placeholder="Nhập mã quản trị" required autofocus>
+                <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
+            </form>
+            <p class="admin-login-hint">
+                Đây là lớp bảo vệ demo phía trình duyệt (không dùng backend thật).
+                Mã mặc định: <code>admin123</code> — hãy đổi trong file <code>admin/admin.js</code>
+                (biến <code>ADMIN_PASSCODE</code>) và thay bằng xác thực backend thật trước khi vận hành thật.
+            </p>
+        </div>
+    </div>
+
+    <script src="../common/vendor/jquery.min.js"></script>
+    <script src="../common/vendor/bootstrap.bundle.min.js"></script>
+    <script src="../common/js/script.js"></script>
+    <script src="admin.js"></script>
+    <script>
+    $(function () {
+        if (isAdminLoggedIn()) {
+            window.location.href = 'index.html';
+            return;
+        }
+        $('#admin-login-form').on('submit', function (e) {
+            e.preventDefault();
+            const val = $('#admin-passcode').val();
+            if (val === ADMIN_PASSCODE) {
+                sessionStorage.setItem('isAdminLoggedIn', 'true');
+                window.location.href = 'index.html';
+            } else {
+                showToast('Mã quản trị không đúng.');
+            }
+        });
+    });
+    </script>
+</body>
+</html>

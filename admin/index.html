@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Tổng quan - Admin SHOPACCGAME.VN</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../common/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../common/css/style.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin-body">
+
+    <div class="admin-shell">
+        <div id="admin-sidebar-mount"></div>
+
+        <main class="admin-main">
+            <div class="admin-topbar">
+                <div class="d-flex align-items-center gap-3">
+                    <button class="admin-toggle-btn" id="admin-toggle-btn"><i class="fa-solid fa-bars"></i></button>
+                    <div>
+                        <h1>Tổng quan</h1>
+                        <p>Số liệu tổng hợp từ dữ liệu trên trình duyệt này</p>
+                    </div>
+                </div>
+                <button class="btn btn-outline-primary btn-sm" id="seed-demo-btn"><i class="fa-solid fa-wand-magic-sparkles me-1"></i>Tạo dữ liệu demo</button>
+            </div>
+
+            <div class="admin-stat-grid">
+                <div class="admin-stat-card">
+                    <div class="admin-stat-icon violet"><i class="fa-solid fa-users"></i></div>
+                    <div>
+                        <div class="admin-stat-value" id="stat-users">0</div>
+                        <div class="admin-stat-label">Người dùng</div>
+                    </div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="admin-stat-icon cyan"><i class="fa-solid fa-receipt"></i></div>
+                    <div>
+                        <div class="admin-stat-value" id="stat-orders">0</div>
+                        <div class="admin-stat-label">Đơn hàng</div>
+                    </div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="admin-stat-icon amber"><i class="fa-solid fa-sack-dollar"></i></div>
+                    <div>
+                        <div class="admin-stat-value" id="stat-revenue">0₫</div>
+                        <div class="admin-stat-label">Doanh thu (đơn hoàn tất)</div>
+                    </div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="admin-stat-icon red"><i class="fa-solid fa-gamepad"></i></div>
+                    <div>
+                        <div class="admin-stat-value" id="stat-products">0</div>
+                        <div class="admin-stat-label">Acc đang bán</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-7 mb-3">
+                    <div class="admin-panel h-100">
+                        <div class="admin-panel-head">
+                            <h5>Đơn hàng theo trạng thái</h5>
+                        </div>
+                        <div class="admin-bar-chart" id="status-chart"></div>
+                    </div>
+                </div>
+                <div class="col-lg-5 mb-3">
+                    <div class="admin-panel h-100">
+                        <div class="admin-panel-head">
+                            <h5>Acc 0 đồng đang có</h5>
+                        </div>
+                        <p style="color:var(--text-mute); font-size:0.88rem;" id="free-acc-summary">—</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-panel">
+                <div class="admin-panel-head">
+                    <h5>Đơn hàng gần đây</h5>
+                    <a href="orders.html" class="btn btn-outline-primary btn-sm">Xem tất cả <i class="fa-solid fa-arrow-right ms-1"></i></a>
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Mã đơn</th>
+                                <th>Khách hàng</th>
+                                <th>Sản phẩm</th>
+                                <th>Giá</th>
+                                <th>Ngày</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-orders-rows"></tbody>
+                    </table>
+                    <div class="admin-empty d-none" id="recent-orders-empty">
+                        <i class="fa-solid fa-inbox"></i>
+                        Chưa có đơn hàng nào trên trình duyệt này.
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../common/vendor/jquery.min.js"></script>
+    <script src="../common/vendor/bootstrap.bundle.min.js"></script>
+    <script src="../common/js/script.js"></script>
+    <script src="../common/js/products.js"></script>
+    <script src="admin.js"></script>
+    <script>
+$(function () {
+    initAdminLayout('dashboard');
+    renderDashboard();
+
+    $('#seed-demo-btn').on('click', function () {
+        seedDemoData();
+        showToast('Đã tạo dữ liệu demo!');
+        renderDashboard();
+    });
+});
+
+function renderDashboard() {
+    const users = getAdminUsers();
+    const orders = getOrders();
+
+    $('#stat-users').text(users.length);
+    $('#stat-orders').text(orders.length);
+
+    const revenue = orders
+        .filter(o => o.status === 'Hoàn tất')
+        .reduce((sum, o) => sum + (Number(o.price) || 0), 0);
+    $('#stat-revenue').text(formatVNDAdmin(revenue));
+
+    $('#stat-products').text(PRODUCTS.length);
+
+    // Biểu đồ đơn hàng theo trạng thái (CSS bar chart đơn giản)
+    const statuses = ['Hoàn tất', 'Đang xử lý', 'Đã huỷ'];
+    const counts = statuses.map(s => orders.filter(o => o.status === s).length);
+    const maxCount = Math.max(1, ...counts);
+    const chartHtml = statuses.map(function (s, i) {
+        const h = Math.round((counts[i] / maxCount) * 130) + 6;
+        return `
+        <div class="admin-bar-col">
+            <div class="admin-bar" style="height:${h}px"></div>
+            <div class="admin-bar-label">${s} (${counts[i]})</div>
+        </div>`;
+    }).join('');
+    $('#status-chart').html(chartHtml);
+
+    // Acc 0 đồng
+    const freeCount = (typeof FREE_PRODUCTS !== 'undefined') ? FREE_PRODUCTS.length : 0;
+    $('#free-acc-summary').html(`Hiện có <b style="color:var(--amber)">${freeCount}</b> acc 0 đồng đang hiển thị ở trang chủ.`);
+
+    // Đơn hàng gần đây (5 đơn mới nhất)
+    const $rows = $('#recent-orders-rows');
+    const $empty = $('#recent-orders-empty');
+    $rows.empty();
+
+    if (!orders.length) {
+        $empty.removeClass('d-none');
+        return;
+    }
+    $empty.addClass('d-none');
+
+    orders.slice().reverse().slice(0, 5).forEach(function (o) {
+        $rows.append(`
+        <tr>
+            <td class="admin-badge">${escapeHtmlAdmin(o.id)}</td>
+            <td>${escapeHtmlAdmin(o.buyerName || o.buyerEmail || '—')}</td>
+            <td>${escapeHtmlAdmin(o.productName)}</td>
+            <td>${formatVNDAdmin(o.price)}</td>
+            <td>${escapeHtmlAdmin(o.date)}</td>
+            <td><span class="admin-badge ${o.status === 'Hoàn tất' ? 'active' : (o.status === 'Đã huỷ' ? 'locked' : '')}">${escapeHtmlAdmin(o.status)}</span></td>
+        </tr>`);
+    });
+}
+    </script>
+</body>
+</html>

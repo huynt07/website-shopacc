@@ -1,0 +1,81 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#1E2330"/>
+      <stop offset="55%" stop-color="#12151D"/>
+      <stop offset="100%" stop-color="#0A0C11"/>
+    </radialGradient>
+    <linearGradient id="boxFront" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#5B3FE0"/>
+      <stop offset="100%" stop-color="#3A2790"/>
+    </linearGradient>
+    <linearGradient id="boxLid" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#7C5CFC"/>
+      <stop offset="100%" stop-color="#5B3FE0"/>
+    </linearGradient>
+    <linearGradient id="ribbon" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFC94D"/>
+      <stop offset="100%" stop-color="#FFB020"/>
+    </linearGradient>
+    <radialGradient id="qGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#21D4FD" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#21D4FD" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bgGlow)"/>
+
+  <!-- ambient sparkles -->
+  <g fill="#21D4FD" opacity="0.8">
+    <circle cx="120" cy="120" r="3"/>
+    <circle cx="670" cy="150" r="4"/>
+    <circle cx="90" cy="420" r="3.5"/>
+    <circle cx="700" cy="440" r="3"/>
+    <circle cx="400" cy="70" r="2.5"/>
+    <circle cx="230" cy="500" r="2.5"/>
+  </g>
+  <g fill="#FFB020" opacity="0.85">
+    <circle cx="180" cy="470" r="3"/>
+    <circle cx="620" cy="500" r="3.5"/>
+    <circle cx="580" cy="90" r="3"/>
+    <circle cx="150" cy="230" r="2.5"/>
+  </g>
+
+  <!-- glow behind box -->
+  <ellipse cx="400" cy="330" rx="230" ry="150" fill="url(#qGlow)" filter="url(#softBlur)"/>
+
+  <!-- question mark glow burst -->
+  <text x="400" y="255" text-anchor="middle" font-family="Rajdhani, sans-serif" font-weight="700"
+        font-size="150" fill="#21D4FD" opacity="0.25">?</text>
+
+  <!-- box shadow -->
+  <ellipse cx="400" cy="470" rx="150" ry="22" fill="#000000" opacity="0.35"/>
+
+  <!-- box body -->
+  <rect x="260" y="300" width="280" height="170" rx="10" fill="url(#boxFront)"/>
+  <rect x="260" y="300" width="280" height="170" rx="10" fill="none" stroke="#8D93A6" stroke-opacity="0.15"/>
+
+  <!-- box lid -->
+  <path d="M245 260 Q400 210 555 260 L570 315 Q400 270 230 315 Z" fill="url(#boxLid)"/>
+  <path d="M245 260 Q400 210 555 260" fill="none" stroke="#21D4FD" stroke-width="2" opacity="0.5"/>
+
+  <!-- vertical ribbon -->
+  <rect x="382" y="260" width="36" height="210" fill="url(#ribbon)"/>
+  <path d="M382 262 Q400 214 418 262" fill="none" stroke="#FFB020" stroke-width="4"/>
+
+  <!-- bow -->
+  <path d="M400 250 C365 210 320 215 330 250 C338 272 380 268 400 250 Z" fill="url(#ribbon)"/>
+  <path d="M400 250 C435 210 480 215 470 250 C462 272 420 268 400 250 Z" fill="url(#ribbon)"/>
+  <circle cx="400" cy="250" r="12" fill="#FFC94D"/>
+
+  <!-- big question mark on lid -->
+  <text x="400" y="300" text-anchor="middle" font-family="Rajdhani, sans-serif" font-weight="700"
+        font-size="46" fill="#0A0C11" opacity="0.55">?</text>
+
+  <!-- title -->
+  <text x="400" y="540" text-anchor="middle" font-family="Rajdhani, sans-serif" font-weight="700"
+        font-size="34" fill="#E9EBF3" letter-spacing="2">TÚI MÙ BÍ ẨN</text>
+</svg>

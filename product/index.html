@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Sản phẩm - SHOPACCGAME.VN</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../common/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../common/css/style.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">SHOPACCGAME<span>.VN</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="nav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="../index.html">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../about/index.html">Giới thiệu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../history/index.html">Lịch sử mua nick</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../deposit/index.html">Nạp tiền</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../contact/index.html">Liên hệ</a></li>
+                    <li class="nav-item" id="auth-link-container"><a class="nav-link" href="../auth/index.html" id="auth-link">Đăng nhập/Đăng ký</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero" style="min-height:32vh;">
+        <div class="container">
+            <span class="eyebrow">Kho acc</span>
+            <h1>Tất cả tài khoản đang bán</h1>
+            <p>Lọc theo tựa game để tìm acc phù hợp với bạn.</p>
+        </div>
+    </div>
+
+    <section class="py-5">
+        <div class="container">
+
+            <div class="filter-bar">
+                <i class="fa-solid fa-sliders" style="color:var(--text-mute)"></i>
+                <select id="game-filter">
+                    <option value="all">Tất cả tựa game</option>
+                </select>
+                <select id="sort-filter">
+                    <option value="default">Sắp xếp: Mặc định</option>
+                    <option value="price-asc">Giá tăng dần</option>
+                    <option value="price-desc">Giá giảm dần</option>
+                </select>
+                <span id="result-count" class="ms-auto" style="color:var(--text-mute); font-family:var(--font-mono); font-size:0.85rem;"></span>
+            </div>
+
+            <div class="row" id="product-grid"></div>
+        </div>
+    </section>
+
+    <footer class="text-center">
+        <div class="container">
+            <p class="mb-0">© 2026 SHOPACCGAME.VN — Shop bán acc game uy tín</p>
+        </div>
+    </footer>
+
+    <script src="../common/vendor/jquery.min.js"></script>
+    <script src="../common/vendor/bootstrap.bundle.min.js"></script>
+    <script src="../common/js/products.js"></script>
+    <script src="../common/js/script.js"></script>
+    <script>
+$(function(){
+    const $grid = $('#product-grid');
+    const $gameFilter = $('#game-filter');
+    const $sortFilter = $('#sort-filter');
+    const $resultCount = $('#result-count');
+
+    // Điền danh sách game vào bộ lọc
+    const games = [...new Set(PRODUCTS.map(p => p.game))];
+    games.forEach(g => {
+        $gameFilter.append($('<option>', { value: g, text: g }));
+    });
+
+    // Nếu URL có ?game=..., tự động chọn game tương ứng trong bộ lọc
+    const urlGame = new URLSearchParams(window.location.search).get('game');
+    if (urlGame && games.includes(urlGame)) {
+        $gameFilter.val(urlGame);
+    }
+
+    function apply(){
+        let list = PRODUCTS.slice();
+        if ($gameFilter.val() !== 'all') {
+            list = list.filter(p => p.game === $gameFilter.val());
+        }
+        if ($sortFilter.val() === 'price-asc') list.sort((a,b) => a.price - b.price);
+        if ($sortFilter.val() === 'price-desc') list.sort((a,b) => b.price - a.price);
+
+        renderProductCards($grid, list, 'detail.html');
+        $resultCount.text(list.length + ' acc');
+    }
+
+    $gameFilter.on('change', apply);
+    $sortFilter.on('change', apply);
+    apply();
+});
+</script>
+
+    </body>
+</html>

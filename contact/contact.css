@@ -1,0 +1,90 @@
+/* contact.css — trang liên hệ, đồng bộ theme SHOPACCGAME.VN */
+
+.page-header{
+    background-image:
+        linear-gradient(180deg, rgba(10,12,17,0.55), rgba(10,12,17,0.95)),
+        url('https://images.unsplash.com/photo-1591370874773-6702e8f12fd8?q=80&w=1600&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    padding: 90px 0 70px;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header h1{
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.page-header p{
+    font-size: 1.15rem;
+    color: var(--text-mute);
+}
+
+.contact-box{
+    background-color: var(--surface);
+    border: 1px solid var(--line);
+    padding: 2.2rem;
+    border-radius: var(--radius);
+    border-left: 3px solid var(--violet);
+    transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.contact-box:hover{
+    transform: translateY(-4px);
+    border-color: var(--cyan);
+}
+
+.contact-box h4{
+    color: var(--text);
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.contact-box .form-control{
+    background: var(--bg-raise);
+    border: 1px solid var(--line);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 0.7rem 0.9rem;
+}
+
+.contact-box .form-control::placeholder{ color: var(--text-mute); }
+
+.contact-box .form-control:focus{
+    background: var(--bg-raise);
+    color: var(--text);
+    border-color: var(--cyan);
+    box-shadow: 0 0 0 0.2rem rgba(33,212,253,0.2);
+}
+
+.contact-box p{
+    font-size: 1.02rem;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    color: var(--text-mute);
+}
+
+.contact-box p i{
+    color: var(--cyan);
+    font-size: 1.1rem;
+    margin-right: 12px;
+    width: 24px;
+    text-align: center;
+}
+
+iframe{
+    width: 100%;
+    height: 320px;
+    border: 0;
+    border-radius: var(--radius);
+    filter: grayscale(60%) invert(92%) contrast(90%);
+    transition: filter 0.3s ease;
+    border: 1px solid var(--line);
+}
+
+iframe:hover{
+    filter: grayscale(0%) invert(0%);
+}

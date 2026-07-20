@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Liên hệ - SHOPACCGAME.VN</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../common/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../common/css/style.css">
+    <link rel="stylesheet" href="contact.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">SHOPACCGAME<span>.VN</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="nav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="../index.html">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../about/index.html">Giới thiệu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../history/index.html">Lịch sử mua nick</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../deposit/index.html">Nạp tiền</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Liên hệ</a></li>
+                    <li class="nav-item" id="auth-link-container"><a class="nav-link" href="../auth/index.html" id="auth-link">Đăng nhập/Đăng ký</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-header text-center">
+        <div class="container">
+            <span style="font-family:var(--font-mono); color:var(--cyan); letter-spacing:0.2em; font-size:0.8rem; text-transform:uppercase;">Liên hệ</span>
+            <h1>Liên hệ với SHOPACCGAME.VN</h1>
+            <p>Luôn sẵn sàng tư vấn và hỗ trợ bạn chọn acc phù hợp</p>
+        </div>
+    </div>
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-6 mb-4">
+                    <div class="contact-box">
+                        <h4>Gửi tin nhắn</h4>
+                        <form id="contactForm">
+                            <input type="text" id="contactName" class="form-control mb-3" placeholder="Họ và tên" required>
+                            <input type="email" id="contactEmail" class="form-control mb-3" placeholder="Email" required>
+                            <input type="text" id="contactGame" class="form-control mb-3" placeholder="Bạn quan tâm tựa game nào? (không bắt buộc)">
+                            <textarea id="contactContent" class="form-control mb-3" rows="4" placeholder="Nội dung" required></textarea>
+                            <button type="submit" class="btn btn-primary w-100">Gửi yêu cầu</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="contact-box mb-4">
+                        <h4>Thông tin liên hệ</h4>
+                        <p><i class="fas fa-map-marker-alt fa-fw"></i> Địa chỉ: TP. Hồ Chí Minh</p>
+                        <p><i class="fas fa-phone-alt fa-fw"></i> Hotline: 0123 456 789</p>
+                        <p><i class="fas fa-envelope fa-fw"></i> Email: support@shopaccgame.vn</p>
+                        <p><i class="fa-brands fa-facebook fa-fw"></i> Fanpage: fb.com/shopaccgamevn</p>
+                        <p><i class="fas fa-clock fa-fw"></i> Giờ làm việc: 8:00 - 24:00, tất cả các ngày</p>
+                    </div>
+
+                    <iframe
+                    src="https://www.google.com/maps?q=ho+chi+minh&output=embed"
+                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<footer class="text-center">
+    <div class="container">
+        <p class="mb-0">© 2026 SHOPACCGAME.VN — Shop bán acc game uy tín</p>
+    </div>
+</footer>
+
+<script src="../common/vendor/jquery.min.js"></script>
+<script src="../common/vendor/bootstrap.bundle.min.js"></script>
+<script src="../common/js/script.js"></script>
+<script>
+$('#contactForm').on('submit', function(e){
+    e.preventDefault();
+    showToast('✅ Đã gửi yêu cầu! Chúng tôi sẽ liên hệ sớm nhất.');
+    this.reset();
+});
+</script>
+
+</body>
+</html>

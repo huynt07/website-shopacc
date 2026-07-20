@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý người dùng - Admin SHOPACCGAME.VN</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../common/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../common/css/style.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin-body">
+
+    <div class="admin-shell">
+        <div id="admin-sidebar-mount"></div>
+
+        <main class="admin-main">
+            <div class="admin-topbar">
+                <div class="d-flex align-items-center gap-3">
+                    <button class="admin-toggle-btn" id="admin-toggle-btn"><i class="fa-solid fa-bars"></i></button>
+                    <div>
+                        <h1>Quản lý người dùng</h1>
+                        <p>Xem, sửa số dư, khoá/mở khoá và xoá người dùng</p>
+                    </div>
+                </div>
+                <button class="btn btn-outline-primary btn-sm" id="seed-demo-btn"><i class="fa-solid fa-wand-magic-sparkles me-1"></i>Tạo dữ liệu demo</button>
+            </div>
+
+            <div class="admin-panel">
+                <div class="admin-toolbar">
+                    <input type="text" id="search-input" class="form-control" style="max-width:280px" placeholder="Tìm theo tên, email...">
+                    <select id="status-filter" class="form-select" style="max-width:180px">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="active">Đang hoạt động</option>
+                        <option value="locked">Đã khoá</option>
+                    </select>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Tên hiển thị</th>
+                                <th>Email</th>
+                                <th>Ngày tham gia</th>
+                                <th>Số dư</th>
+                                <th>Trạng thái</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-rows"></tbody>
+                    </table>
+                    <div class="admin-empty d-none" id="users-empty">
+                        <i class="fa-solid fa-user-slash"></i>
+                        Chưa có người dùng nào khớp điều kiện lọc.
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../common/vendor/jquery.min.js"></script>
+    <script src="../common/vendor/bootstrap.bundle.min.js"></script>
+    <script src="../common/js/script.js"></script>
+    <script src="admin.js"></script>
+    <script>
+$(function () {
+    initAdminLayout('users');
+    renderUsersTable();
+
+    $('#seed-demo-btn').on('click', function () {
+        seedDemoData();
+        showToast('Đã tạo dữ liệu demo!');
+        renderUsersTable();
+    });
+
+    $('#search-input').on('input', renderUsersTable);
+    $('#status-filter').on('change', renderUsersTable);
+});
+
+function renderUsersTable() {
+    const keyword = $('#search-input').val().trim().toLowerCase();
+    const statusFilter = $('#status-filter').val();
+
+    let users = getAdminUsers().slice().reverse();
+
+    if (keyword) {
+        users = users.filter(function (u) {
+            return (u.username || '').toLowerCase().includes(keyword)
+                || (u.email || '').toLowerCase().includes(keyword);
+        });
+    }
+    if (statusFilter === 'locked') users = users.filter(u => u.locked);
+    if (statusFilter === 'active') users = users.filter(u => !u.locked);
+
+    const $rows = $('#users-rows');
+    const $empty = $('#users-empty');
+    $rows.empty();
+
+    if (!users.length) {
+        $empty.removeClass('d-none');
+        return;
+    }
+    $empty.addClass('d-none');
+
+    users.forEach(function (u) {
+        const $tr = $(`
+        <tr data-email="${escapeHtmlAdmin(u.email)}">
+            <td>${escapeHtmlAdmin(u.username || '—')}</td>
+            <td style="font-family:var(--font-mono); font-size:0.82rem;">${escapeHtmlAdmin(u.email)}</td>
+            <td>${escapeHtmlAdmin(u.joinedAt || '—')}</td>
+            <td>
+                <span class="balance-view">${formatVNDAdmin(u.balance)}</span>
+                <input type="number" class="form-control form-control-sm balance-input d-none" style="width:120px; display:inline-block;" value="${Number(u.balance) || 0}">
+            </td>
+            <td><span class="admin-badge ${u.locked ? 'locked' : 'active'}">${u.locked ? 'Đã khoá' : 'Đang hoạt động'}</span></td>
+            <td class="text-nowrap">
+                <button type="button" class="admin-icon-btn edit-btn edit-balance-btn" title="Sửa số dư"><i class="fa-solid fa-pen"></i></button>
+                <button type="button" class="admin-icon-btn edit-btn toggle-lock-btn" title="${u.locked ? 'Mở khoá' : 'Khoá tài khoản'}"><i class="fa-solid ${u.locked ? 'fa-lock-open' : 'fa-lock'}"></i></button>
+                <button type="button" class="admin-icon-btn delete-user-btn" title="Xoá người dùng"><i class="fa-solid fa-trash"></i></button>
+            </td>
+        </tr>`);
+        $rows.append($tr);
+    });
+
+    // Sửa số dư (bấm bút -> hiện ô nhập -> bấm lại để lưu)
+    $rows.find('.edit-balance-btn').on('click', function () {
+        const $tr = $(this).closest('tr');
+        const $view = $tr.find('.balance-view');
+        const $input = $tr.find('.balance-input');
+        const $icon = $(this).find('i');
+
+        if ($input.hasClass('d-none')) {
+            $view.addClass('d-none');
+            $input.removeClass('d-none').trigger('focus');
+            $icon.attr('class', 'fa-solid fa-check');
+        } else {
+            const email = $tr.data('email');
+            const newBalance = Number($input.val()) || 0;
+            const users = getAdminUsers();
+            const idx = users.findIndex(u => u.email === email);
+            if (idx !== -1) {
+                users[idx].balance = newBalance;
+                saveAdminUsers(users);
+                showToast('Đã cập nhật số dư cho ' + email);
+            }
+            $view.text(formatVNDAdmin(newBalance)).removeClass('d-none');
+            $input.addClass('d-none');
+            $icon.attr('class', 'fa-solid fa-pen');
+        }
+    });
+
+    $rows.find('.toggle-lock-btn').on('click', function () {
+        const email = $(this).closest('tr').data('email');
+        const users = getAdminUsers();
+        const idx = users.findIndex(u => u.email === email);
+        if (idx !== -1) {
+            users[idx].locked = !users[idx].locked;
+            saveAdminUsers(users);
+            showToast(users[idx].locked ? 'Đã khoá tài khoản ' + email : 'Đã mở khoá tài khoản ' + email);
+        }
+        renderUsersTable();
+    });
+
+    $rows.find('.delete-user-btn').on('click', function () {
+        const email = $(this).closest('tr').data('email');
+        if (!window.confirm('Xoá người dùng ' + email + '? Hành động này không thể hoàn tác.')) return;
+        let users = getAdminUsers();
+        users = users.filter(u => u.email !== email);
+        saveAdminUsers(users);
+        showToast('Đã xoá người dùng ' + email);
+        renderUsersTable();
+    });
+}
+    </script>
+</body>
+</html>

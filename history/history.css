@@ -1,0 +1,81 @@
+.history-table{
+  color: var(--text);
+  --bs-table-bg: transparent;
+  --bs-table-color: #fff;
+}
+.history-table thead th{
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  border-bottom: 1px solid var(--line);
+  padding: 0.8rem 0.6rem;
+}
+.history-table tbody td{
+  border-bottom: 1px solid var(--line);
+  padding: 0.9rem 0.6rem;
+  font-size: 0.92rem;
+}
+.history-table tbody tr:last-child td{ border-bottom: none; }
+
+.status-pill{
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(33,212,253,0.12);
+  border: 1px solid var(--cyan);
+  color: var(--cyan);
+}
+
+.account-cell{
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: #fff !important;
+  white-space: nowrap;
+}
+
+.history-cell{
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: #fff !important;
+}
+
+.pw-cell{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: #fff !important;
+  white-space: nowrap;
+}
+
+.pw-value{
+  letter-spacing: 0.05em;
+  min-width: 5.5em;
+  display: inline-block;
+}
+
+.pw-toggle-btn{
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--text-mute);
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  flex-shrink: 0;
+}
+
+.pw-toggle-btn:hover{
+  color: var(--cyan);
+  border-color: var(--cyan);
+  background: rgba(33,212,253,0.08);
+}

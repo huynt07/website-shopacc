@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Lịch sử mua nick - SHOPACCGAME.VN</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../common/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../common/css/style.css">
+    <link rel="stylesheet" href="history.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">SHOPACCGAME<span>.VN</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="nav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="../index.html">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../about/index.html">Giới thiệu</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Lịch sử mua nick</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../deposit/index.html">Nạp tiền</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../contact/index.html">Liên hệ</a></li>
+                    <li class="nav-item" id="auth-link-container"><a class="nav-link" href="../auth/index.html" id="auth-link">Đăng nhập/Đăng ký</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div class="container">
+            <span class="eyebrow">Tài khoản của bạn</span>
+            <h1>Lịch sử mua nick</h1>
+            <p>Theo dõi toàn bộ acc bạn đã mua tại SHOPACCGAME.VN</p>
+        </div>
+    </div>
+
+    <section class="py-5">
+        <div class="container" style="max-width:960px;">
+
+            <!-- Yêu cầu đăng nhập -->
+            <div id="require-login" class="panel text-center d-none">
+                <i class="fa-solid fa-lock" style="font-size:2.2rem; color:var(--cyan);"></i>
+                <h4 class="mt-3">Bạn cần đăng nhập</h4>
+                <p style="color:var(--text-mute)">Đăng nhập để xem lịch sử mua nick của bạn.</p>
+                <a href="../auth/index.html" class="btn btn-primary">Đăng nhập ngay</a>
+            </div>
+
+            <!-- Danh sách lịch sử -->
+            <div id="history-content" class="d-none">
+                <div class="panel">
+                    <div id="history-empty" class="text-center py-4 d-none">
+                        <i class="fa-solid fa-box-open" style="font-size:2.2rem; color:var(--text-mute);"></i>
+                        <h5 class="mt-3">Bạn chưa mua nick nào</h5>
+                        <p style="color:var(--text-mute)">Khám phá danh sách acc game đang mở bán tại SHOPACCGAME.VN.</p>
+                        <a href="../product/index.html" class="btn btn-outline-primary">Xem acc ngay</a>
+                    </div>
+
+                    <div class="table-responsive" id="history-table-wrap">
+                        <table class="table history-table align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Sản phẩm</th>
+                                    <th>Ngày mua</th>
+                                    <th>Giá</th>
+                                    <th>Tài khoản</th>
+                                    <th>Mật khẩu</th>
+                                    <th>Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-rows"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="text-center">
+        <div class="container">
+            <p class="mb-0">© 2026 SHOPACCGAME.VN — Shop bán acc game uy tín</p>
+        </div>
+    </footer>
+
+    <script src="../common/vendor/jquery.min.js"></script>
+    <script src="../common/vendor/bootstrap.bundle.min.js"></script>
+    <script src="../common/js/script.js"></script>
+    <script>
+$(function () {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const $requireLogin = $('#require-login');
+    const $content = $('#history-content');
+
+    if (!isLoggedIn) {
+        $requireLogin.removeClass('d-none');
+        return;
+    }
+    $content.removeClass('d-none');
+
+    const history = JSON.parse(localStorage.getItem('purchaseHistory')) || [];
+    const $rows = $('#history-rows');
+    const $empty = $('#history-empty');
+    const $tableWrap = $('#history-table-wrap');
+
+    if (history.length === 0) {
+        $empty.removeClass('d-none');
+        $tableWrap.addClass('d-none');
+        return;
+    }
+
+    history.slice().reverse().forEach(item => {
+        const account = item.account || '—';
+        const password = item.password || '—';
+        const hasPassword = !!item.password;
+        const $tr = $('<tr>').html(`
+            <td class="history-cell">${item.name || 'Acc game'}</td>
+            <td class="history-cell">${item.date || '-'}</td>
+            <td class="history-cell">${Number(item.price || 0).toLocaleString('vi-VN')} đ</td>
+            <td><span class="account-cell"><i class="fa-solid fa-user me-1" style="color:var(--text-mute)"></i>${escapeHtml(account)}</span></td>
+            <td>
+                <span class="pw-cell">
+                    <span class="pw-value" data-pw="${escapeHtml(password)}" data-visible="false">${hasPassword ? '••••••' : password}</span>
+                    ${hasPassword ? `
+                    <button type="button" class="pw-toggle-btn" aria-label="Hiện/ẩn mật khẩu">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>` : ''}
+                </span>
+            </td>
+            <td><span class="status-pill">${item.status || 'Hoàn tất'}</span></td>
+        `);
+        $rows.append($tr);
+    });
+
+    $rows.on('click', '.pw-toggle-btn', function () {
+        const $btn = $(this);
+        const $value = $btn.prev('.pw-value');
+        const isVisible = $value.attr('data-visible') === 'true';
+        if (isVisible) {
+            $value.text('••••••').attr('data-visible', 'false');
+            $btn.html('<i class="fa-solid fa-eye"></i>');
+        } else {
+            $value.text($value.attr('data-pw')).attr('data-visible', 'true');
+            $btn.html('<i class="fa-solid fa-eye-slash"></i>');
+        }
+    });
+});
+</script>
+
+    </body>
+</html>

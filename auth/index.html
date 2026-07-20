@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập / Đăng ký - SHOPACCGAME.VN</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../common/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../common/css/style.css">
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">SHOPACCGAME<span>.VN</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="nav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="../index.html">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../about/index.html">Giới thiệu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../history/index.html">Lịch sử mua nick</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../deposit/index.html">Nạp tiền</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../contact/index.html">Liên hệ</a></li>
+                    <li class="nav-item" id="auth-link-container"><a class="nav-link active" href="index.html" id="auth-link">Đăng nhập/Đăng ký</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 auth-container">
+
+                <div id="loginForm">
+                    <span class="eyebrow">Chào mừng trở lại</span>
+                    <h2 class="text-center mb-4">Đăng Nhập</h2>
+                    <form id="login-form">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Địa chỉ Email</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Mật khẩu</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Đăng Nhập</button>
+                    </form>
+                    <p class="text-center mt-3" style="color:var(--text-mute)">
+                        Chưa có tài khoản? <a id="switchToRegister" class="form-switch-link">Đăng ký ngay</a>
+                    </p>
+                </div>
+
+                <div id="registerForm" class="d-none">
+                    <span class="eyebrow">Tham gia SHOPACCGAME.VN</span>
+                    <h2 class="text-center mb-4">Đăng Ký</h2>
+                    <form id="register-form">
+                        <div class="mb-3">
+                            <label for="registerUsername" class="form-label">Tên người dùng</label>
+                            <input type="text" class="form-control" id="registerUsername" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerEmail" class="form-label">Địa chỉ Email</label>
+                            <input type="email" class="form-control" id="registerEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerPassword" class="form-label">Mật khẩu</label>
+                            <input type="password" class="form-control" id="registerPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Xác nhận Mật khẩu</label>
+                            <input type="password" class="form-control" id="confirmPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Đăng Ký</button>
+                    </form>
+                    <p class="text-center mt-3" style="color:var(--text-mute)">
+                        Đã có tài khoản? <a id="switchToLogin" class="form-switch-link">Đăng nhập</a>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="../common/vendor/jquery.min.js"></script>
+    <script src="../common/vendor/bootstrap.bundle.min.js"></script>
+    <script src="auth.js"></script>
+    <script src="../common/js/script.js"></script>
+</body>
+</html>

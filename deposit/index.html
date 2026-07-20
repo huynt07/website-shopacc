@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Nạp tiền - SHOPACCGAME.VN</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../common/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../common/css/style.css">
+    <link rel="stylesheet" href="deposit.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">SHOPACCGAME<span>.VN</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="nav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="../index.html">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../about/index.html">Giới thiệu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../history/index.html">Lịch sử mua nick</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Nạp tiền</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../contact/index.html">Liên hệ</a></li>
+                    <li class="nav-item" id="auth-link-container"><a class="nav-link" href="../auth/index.html" id="auth-link">Đăng nhập/Đăng ký</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div class="container">
+            <span class="eyebrow">Ví SHOPACCGAME.VN</span>
+            <h1>Nạp tiền vào tài khoản</h1>
+            <p>Nạp tiền nhanh chóng để mua acc bất cứ lúc nào</p>
+        </div>
+    </div>
+
+    <section class="py-5">
+        <div class="container" style="max-width:960px;">
+
+            <!-- Yêu cầu đăng nhập -->
+            <div id="require-login" class="panel text-center d-none">
+                <i class="fa-solid fa-lock" style="font-size:2.2rem; color:var(--cyan);"></i>
+                <h4 class="mt-3">Bạn cần đăng nhập</h4>
+                <p style="color:var(--text-mute)">Đăng nhập để nạp tiền vào tài khoản của bạn.</p>
+                <a href="../auth/index.html" class="btn btn-primary">Đăng nhập ngay</a>
+            </div>
+
+            <div id="deposit-content" class="d-none">
+
+                <div class="deposit-tabs" role="tablist">
+                    <button type="button" class="deposit-tab-btn active" data-tab="bank">
+                        <i class="fa-solid fa-building-columns me-2"></i>Nạp ngân hàng
+                    </button>
+                    <button type="button" class="deposit-tab-btn" data-tab="card">
+                        <i class="fa-solid fa-credit-card me-2"></i>Nạp thẻ cào
+                    </button>
+                </div>
+
+                <!-- ================= TAB: NẠP NGÂN HÀNG ================= -->
+                <div id="tab-bank" class="deposit-tab-pane">
+                    <div class="panel">
+                        <h4><i class="fa-solid fa-wallet me-2" style="color:var(--cyan)"></i>Chọn số tiền nạp</h4>
+                        <div class="amount-grid" id="amount-grid">
+                            <button type="button" class="amount-btn" data-amount="50000">50.000 đ</button>
+                            <button type="button" class="amount-btn" data-amount="100000">100.000 đ</button>
+                            <button type="button" class="amount-btn" data-amount="200000">200.000 đ</button>
+                            <button type="button" class="amount-btn" data-amount="500000">500.000 đ</button>
+                            <button type="button" class="amount-btn" data-amount="1000000">1.000.000 đ</button>
+                            <button type="button" class="amount-btn" data-amount="2000000">2.000.000 đ</button>
+                        </div>
+
+                        <label for="customAmount" class="form-label mt-3">Hoặc nhập số tiền khác</label>
+                        <input type="number" min="10000" step="1000" id="customAmount" class="form-control mb-3" placeholder="Ví dụ: 150000">
+
+                        <button type="button" id="showTransferBtn" class="btn btn-primary w-100">
+                            <i class="fa-solid fa-qrcode me-1"></i>Nạp tiền
+                        </button>
+                    </div>
+
+                    <!-- Thông tin chuyển khoản, chỉ hiện sau khi bấm "Nạp tiền" -->
+                    <div id="transfer-info" class="panel mt-4 text-center d-none">
+                        <h4><i class="fa-solid fa-qrcode me-2" style="color:var(--cyan)"></i>Quét mã hoặc chuyển khoản theo thông tin bên dưới</h4>
+                        <div class="qr-box">
+                            <i class="fa-solid fa-qrcode"></i>
+                        </div>
+                        <table class="spec-table mt-2 text-start mx-auto" style="max-width:420px;">
+                            <tr><td>Ngân hàng</td><td>Vietcombank</td></tr>
+                            <tr><td>Chủ tài khoản</td><td>CONG TY SHOPACCGAME.VN</td></tr>
+                            <tr><td>Số tài khoản</td><td>0123456789</td></tr>
+                            <tr><td>Số tiền</td><td id="transfer-amount">0 đ</td></tr>
+                            <tr><td>Nội dung CK</td><td><span id="transfer-code">SHOPACCGAME NAP TAIKHOAN</span></td></tr>
+                        </table>
+                        <small class="d-block mb-3" style="color:var(--text-mute)">
+                            Vui lòng ghi đúng nội dung chuyển khoản để được cộng tiền nhanh nhất.
+                        </small>
+                        <button type="button" id="confirmTransferBtn" class="btn btn-primary">
+                            <i class="fa-solid fa-circle-check me-1"></i>Tôi đã chuyển khoản
+                        </button>
+                        <small class="d-block mt-2" style="color:var(--text-mute)">
+                            * Số dư sẽ được cộng ngay sau khi bạn xác nhận (bản demo).
+                        </small>
+                    </div>
+                </div>
+
+                <!-- ================= TAB: NẠP THẺ CÀO ================= -->
+                <div id="tab-card" class="deposit-tab-pane d-none">
+                    <div class="panel">
+                        <h4><i class="fa-solid fa-credit-card me-2" style="color:var(--cyan)"></i>Thông tin thẻ cào</h4>
+
+                        <label for="cardProvider" class="form-label">Loại thẻ</label>
+                        <select id="cardProvider" class="form-select mb-3">
+                            <option value="Viettel">Viettel</option>
+                            <option value="Mobifone">Mobifone</option>
+                            <option value="Vinaphone">Vinaphone</option>
+                            <option value="Vietnamobile">Vietnamobile</option>
+                            <option value="Zing">Zing</option>
+                            <option value="Garena">Garena</option>
+                        </select>
+
+                        <label class="form-label">Mệnh giá thẻ</label>
+                        <div class="amount-grid" id="card-amount-grid">
+                            <button type="button" class="amount-btn" data-amount="10000">10.000 đ</button>
+                            <button type="button" class="amount-btn" data-amount="20000">20.000 đ</button>
+                            <button type="button" class="amount-btn" data-amount="50000">50.000 đ</button>
+                            <button type="button" class="amount-btn" data-amount="100000">100.000 đ</button>
+                            <button type="button" class="amount-btn" data-amount="200000">200.000 đ</button>
+                            <button type="button" class="amount-btn" data-amount="500000">500.000 đ</button>
+                        </div>
+
+                        <label for="cardSerial" class="form-label mt-3">Số seri thẻ</label>
+                        <input type="text" id="cardSerial" class="form-control mb-3" placeholder="Nhập số seri in trên thẻ">
+
+                        <label for="cardPin" class="form-label">Mã thẻ (mã pin)</label>
+                        <input type="text" id="cardPin" class="form-control mb-3" placeholder="Nhập mã thẻ">
+
+                        <button type="button" id="submitCardBtn" class="btn btn-primary w-100">
+                            <i class="fa-solid fa-paper-plane me-1"></i>Nạp thẻ
+                        </button>
+                        <small class="d-block mt-2" style="color:var(--text-mute)">
+                            * Thẻ sẽ được hệ thống kiểm tra, số dư cộng sau khi xác thực thành công (bản demo cộng ngay).
+                        </small>
+                    </div>
+                </div>
+
+                <div class="panel mt-4">
+                    <h5><i class="fa-solid fa-coins me-2" style="color:var(--amber)"></i>Số dư hiện tại: <span id="current-balance">0 đ</span></h5>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="text-center">
+        <div class="container">
+            <p class="mb-0">© 2026 SHOPACCGAME.VN — Shop bán acc game uy tín</p>
+        </div>
+    </footer>
+
+    <script src="../common/vendor/jquery.min.js"></script>
+    <script src="../common/vendor/bootstrap.bundle.min.js"></script>
+    <script src="../common/js/script.js"></script>
+    <script>
+$(function () {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const $requireLogin = $('#require-login');
+    const $content = $('#deposit-content');
+
+    if (!isLoggedIn) {
+        $requireLogin.removeClass('d-none');
+        return;
+    }
+    $content.removeClass('d-none');
+
+    const userName = (localStorage.getItem('userName') || 'TAIKHOAN').toUpperCase().replace(/\s+/g, '');
+
+    const $balance = $('#current-balance');
+    function refreshBalance(){
+        const balance = Number(localStorage.getItem('userBalance')) || 0;
+        $balance.text(balance.toLocaleString('vi-VN') + ' đ');
+    }
+    refreshBalance();
+
+    function creditBalance(amount){
+        const currentBalance = Number(localStorage.getItem('userBalance')) || 0;
+        const newBalance = currentBalance + amount;
+        localStorage.setItem('userBalance', newBalance);
+
+        // Đồng bộ vào danh sách users để giữ số dư khi đăng nhập lại
+        const email = localStorage.getItem('userEmail');
+        if (email) {
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            users = users.map(u => u.email === email ? { ...u, balance: newBalance } : u);
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+        refreshBalance();
+    }
+
+    /* ========== CHUYỂN TAB ========== */
+    const $tabBtns = $('.deposit-tab-btn');
+    const $panes = {
+        bank: $('#tab-bank'),
+        card: $('#tab-card')
+    };
+    $tabBtns.on('click', function () {
+        const $btn = $(this);
+        $tabBtns.removeClass('active');
+        $btn.addClass('active');
+        Object.keys($panes).forEach(key => {
+            $panes[key].toggleClass('d-none', key !== $btn.data('tab'));
+        });
+    });
+
+    /* ========== TAB: NẠP NGÂN HÀNG ========== */
+    const $amountBtns = $('#amount-grid .amount-btn');
+    const $customAmount = $('#customAmount');
+    const $transferInfo = $('#transfer-info');
+
+    $amountBtns.on('click', function () {
+        const $btn = $(this);
+        $amountBtns.removeClass('active');
+        $btn.addClass('active');
+        $customAmount.val($btn.data('amount'));
+    });
+    $customAmount.on('input', () => {
+        $amountBtns.removeClass('active');
+        $transferInfo.addClass('d-none');
+    });
+
+    $('#showTransferBtn').on('click', function () {
+        const amount = Number($customAmount.val());
+        if (!amount || amount < 10000) {
+            showToast('⚠️ Vui lòng chọn hoặc nhập số tiền hợp lệ (tối thiểu 10.000 đ).');
+            return;
+        }
+        const code = 'SHOPACCGAME ' + userName + ' ' + Math.floor(1000 + Math.random() * 9000);
+        $('#transfer-amount').text(amount.toLocaleString('vi-VN') + ' đ');
+        $('#transfer-code').text(code);
+        $transferInfo.removeClass('d-none');
+        $transferInfo[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        $('#confirmTransferBtn').off('click').on('click', function () {
+            creditBalance(amount);
+            const newBalance = Number(localStorage.getItem('userBalance')) || 0;
+            $customAmount.val('');
+            $amountBtns.removeClass('active');
+            $transferInfo.addClass('d-none');
+            showDepositSuccess(amount, newBalance, function(){
+                window.location.reload();
+            });
+        });
+    });
+
+    /* ========== TAB: NẠP THẺ CÀO ========== */
+    const $cardAmountBtns = $('#card-amount-grid .amount-btn');
+    let selectedCardAmount = null;
+    $cardAmountBtns.on('click', function () {
+        const $btn = $(this);
+        $cardAmountBtns.removeClass('active');
+        $btn.addClass('active');
+        selectedCardAmount = Number($btn.data('amount'));
+    });
+
+    $('#submitCardBtn').on('click', function () {
+        const provider = $('#cardProvider').val();
+        const serial = $('#cardSerial').val().trim();
+        const pin = $('#cardPin').val().trim();
+
+        if (!selectedCardAmount) {
+            showToast('⚠️ Vui lòng chọn mệnh giá thẻ.');
+            return;
+        }
+        if (!serial || !pin) {
+            showToast('⚠️ Vui lòng nhập đầy đủ số seri và mã thẻ.');
+            return;
+        }
+
+        showToast('⏳ Đang gửi thẻ ' + provider + ' để hệ thống kiểm tra...');
+
+        setTimeout(() => {
+            creditBalance(selectedCardAmount);
+            const newBalance = Number(localStorage.getItem('userBalance')) || 0;
+            $('#cardSerial').val('');
+            $('#cardPin').val('');
+            $cardAmountBtns.removeClass('active');
+            const amountCredited = selectedCardAmount;
+            selectedCardAmount = null;
+            showDepositSuccess(amountCredited, newBalance, function(){
+                window.location.reload();
+            });
+        }, 1200);
+    });
+
+    /* ========== HIỆU ỨNG NẠP TIỀN THÀNH CÔNG ========== */
+    function showDepositSuccess(amount, newBalance, callback) {
+        let $overlay = $('#deposit-success-overlay');
+
+        if (!$overlay.length) {
+            $overlay = $('<div>', { id: 'deposit-success-overlay', class: 'success-overlay' }).html(`
+                <div class="success-card">
+                    <div class="success-check-circle">
+                        <svg viewBox="0 0 52 52" class="success-check-svg">
+                            <circle class="success-check-circle-bg" cx="26" cy="26" r="24" fill="none"></circle>
+                            <path class="success-check-mark" fill="none" d="M14 27l7 7 17-17"></path>
+                        </svg>
+                    </div>
+                    <h3 class="success-title">Nạp tiền thành công!</h3>
+                    <p class="success-sub" id="deposit-success-amount"></p>
+                    <div class="success-balance">Số dư mới: <b id="deposit-success-balance"></b></div>
+                </div>`);
+            $('body').append($overlay);
+        }
+
+        $overlay.find('#deposit-success-amount').text('+' + amount.toLocaleString('vi-VN') + ' đ đã được cộng vào ví');
+        $overlay.find('#deposit-success-balance').text(newBalance.toLocaleString('vi-VN') + ' đ');
+
+        $overlay.removeClass('show hide');
+        void $overlay[0].offsetWidth;
+        $overlay.addClass('show');
+
+        setTimeout(function () {
+            $overlay.removeClass('show').addClass('hide');
+            setTimeout(function () {
+                $overlay.removeClass('hide');
+                if (typeof callback === 'function') callback();
+            }, 350);
+        }, 1500);
+    }
+});
+</script>
+
+    </body>
+</html>
