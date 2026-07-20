@@ -248,28 +248,27 @@ index.html
 
 *Nguyễn Thanh Huy*
 
-GitHub
-
-https://github.com/huynt07
+GitHub: https://github.com/huynt07
 
 ---
 
 # 🤝 Liên hệ
+
 Nếu bạn có bất kỳ câu hỏi, góp ý hoặc đề xuất cải thiện dự án, hãy liên hệ với mình:
 
  - 📧 Email: fit.huynt@gmail.com
 
 ---
 
-# ⭐ Nếu bạn thấy dự án hữu ích
-
-Hãy để lại một ⭐ cho repository nhé!
-
----
-
 # 📄 License
 
 Dự án được xây dựng phục vụ mục đích học tập, **không sử dụng cho mục đích thương mại**.
+
+---
+
+# ⭐ Nếu bạn thấy dự án hữu ích
+
+Hãy để lại một ⭐ cho repository nhé!
 
 <div align="center">
 
